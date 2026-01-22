@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Paper Explainer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Medical Paper Explainer</h1>
+    <p class="subtitle">
+        Upload a medical research paper or paste text to get an explanation tailored to your level.
+    </p>
+
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+
+        <p style="color:#555; font-size:14px;">
+            You can either upload a PDF or paste the text directly.
+        </p>
+
+        <!-- PDF Upload -->
+        <label for="file">Upload PDF</label>
+        <input type="file" name="file" accept=".pdf">
+
+        <!-- Text Input -->
+        <label for="text">Or paste your text</label>
+        <textarea 
+            name="text" 
+            rows="6" 
+            placeholder="Paste medical abstract, section, or full text here..."
+        ></textarea>
+
+        <!-- Level -->
+        <label for="level">Explanation level</label>
+        <select name="level" required>
+            <option value="beginner">Beginner (no medical background)</option>
+            <option value="intermediate">Intermediate (some medical knowledge)</option>
+            <option value="expert">Expert (research level)</option>
+        </select>
+
+        <button type="submit">Explain</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if explanation %}
+        <div class="result">
+            <h2>{{ level.capitalize() }} Explanation</h2>
+            <div 
+                class="explanation-box" 
+                id="explanation-box" 
+                data-fulltext="{{ explanation|e }}">
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const box = document.getElementById("explanation-box");
+    if (!box) return;
+
+    const fullText = box.dataset.fulltext.trim();
+    const words = fullText.split(/\s+/);
+    let index = 0;
+
+    function revealNextWord() {
+        if (index < words.length) {
+            box.textContent += (box.textContent ? " " : "") + words[index];
+            index++;
+            setTimeout(revealNextWord, 150);
+        }
+    }
+
+    revealNextWord();
+});
+</script>
+
+</body>
+</html>
