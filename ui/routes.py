@@ -29,7 +29,8 @@ def home():
         return render_template(
             "index.html",
             explanation=data["explanation"],
-            level=data["level"]
+            level=data["level"],
+            sources = data.get("sources", [])
         )
 
     return render_template("index.html")

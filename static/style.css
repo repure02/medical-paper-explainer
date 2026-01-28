@@ -87,3 +87,43 @@ h1 {
 body {
     overflow-x: hidden;
 }
+
+
+.sources {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fafafa;
+}
+
+.sources h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.source-item {
+    margin-bottom: 10px;
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    padding: 8px 10px;
+    background: white;
+}
+
+.source-item summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.source-text {
+    margin-top: 8px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.source-item.highlight {
+    outline: 2px solid #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    transition: box-shadow 0.2s ease, outline 0.2s ease;
+}

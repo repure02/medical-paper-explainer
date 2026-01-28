@@ -56,26 +56,61 @@
             </div>
         </div>
     {% endif %}
+
+    {% if sources %}
+        <div class="sources">
+            <h3>Sources</h3>
+
+            {% for s in sources %}
+                <details class="source-item" id="source-{{ s.chunk_id }}">
+                    <summary>
+                        Chunk {{ s.chunk_id }} — page {{ s.page }}
+                    </summary>
+                    <div class="source-text">{{ s.text }}</div>
+                </details>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const box = document.getElementById("explanation-box");
-    if (!box) return;
+  const box = document.getElementById("explanation-box");
+  if (!box) return;
 
-    const fullText = box.dataset.fulltext.trim();
-    const words = fullText.split(/\s+/);
-    let index = 0;
+  const fullText = (box.dataset.fulltext || "").trim();
 
-    function revealNextWord() {
-        if (index < words.length) {
-            box.textContent += (box.textContent ? " " : "") + words[index];
-            index++;
-            setTimeout(revealNextWord, 150);
-        }
+  // Turn <<12>> into a link that points to the source block
+  const withLinks = fullText.replace(/<<(\d+)>>/g, (match, id) => {
+    return `<a href="#source-${id}" class="citation" data-chunk="${id}"><<${id}>></a>`;
+  });
+
+  box.innerHTML = withLinks;
+
+  // Make citation clicks open the <details> and scroll smoothly
+  box.addEventListener("click", function(e) {
+    const link = e.target.closest(".citation");
+    if (!link) return;
+
+    e.preventDefault();
+
+    const id = link.dataset.chunk;
+    const target = document.getElementById(`source-${id}`);
+    if (!target) return;
+
+    // If it's a <details>, open it
+    if (target.tagName.toLowerCase() === "details") {
+      target.open = true;
     }
 
-    revealNextWord();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Highlight the target briefly
+    target.classList.add("highlight");
+    setTimeout(() => target.classList.remove("highlight"), 1200);
+
+    // Update URL hash
+    history.replaceState(null, "", `#source-${id}`);
+  });
 });
 </script>
 
