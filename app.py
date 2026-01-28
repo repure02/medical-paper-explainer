@@ -5,7 +5,7 @@ from ui.routes import ui_bp
 
 app = Flask(__name__)
 
-# Register Blueprints
+# Register Blueprints so API and UI routes stay modular
 app.register_blueprint(api_bp, url_prefix="/api")
 app.register_blueprint(ui_bp)
 

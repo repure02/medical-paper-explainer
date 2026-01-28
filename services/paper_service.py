@@ -5,12 +5,8 @@ from llm_inference.ollama_client import generate_explanation
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
+# Process PDF files
 def process_paper(file, level):
-    """
-    Core business logic.
-    Returns (result_dict, error_message, status_code)
-    """
     if not file or file.filename == "":
         return None, "No file provided", 400
 
@@ -32,8 +28,8 @@ def process_paper(file, level):
         "filename": file.filename
     }, None, 200
 
+# Process raw text instead of PDF
 def process_text(text, level):
-    #Process raw text instead of PDF
     if not text or not text.strip():
         return None, 'No text provided', 400
     

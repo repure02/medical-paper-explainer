@@ -15,7 +15,7 @@ def home():
         if file and file.filename:
             data, error, _ = process_paper(file, level)
 
-        # Otherwise, if text is provided, use the text pipeline
+        # If text is provided, use the text pipeline
         elif text and text.strip():
             data, error, _ = process_text(text, level)
 

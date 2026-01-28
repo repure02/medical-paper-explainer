@@ -1,4 +1,3 @@
-# llm_inference/ollama_client.py
 import ollama
 
 PROMPTS = {
@@ -10,6 +9,7 @@ PROMPTS = {
 def generate_explanation(text, level):
     prompt = PROMPTS[level].format(text)
 
+    # Local LLM call via Ollama; model runs on host machine
     response = ollama.chat(
         model="llama3.2:latest",
         messages=[{"role": "user", "content": prompt}]

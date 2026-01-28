@@ -4,6 +4,7 @@ from services.paper_service import process_paper, process_text
 
 api_bp = Blueprint("api", __name__)
 
+
 @api_bp.route("/health", methods=["GET"])
 def health_check():
     return {
